@@ -1,14 +1,28 @@
 <?php require_once('includes/connection.php'); ?>
+   
+<?php
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Department of Agriculture</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.0.js"></script> -->
+    session_start();
+    $officerID = $_SESSION['userID'];
+    $query = "SELECT OfficerID, CenterID, FName, LName FROM AGRICULTURAL_OFFICER WHERE OfficerID = '{$officerID}' LIMIT 1";
 
+    $result = mysqli_query($conn, $query);
+
+    if ($recordRow = mysqli_fetch_assoc($result)) {
+
+        $userOfficerID = $recordRow['OfficerID'];
+        $userCenterID = $recordRow['CenterID'];
+        $userFName = $recordRow['FName'];
+        $userLName = $recordRow['LName'];
+
+        $msgViewUser = "Login as        {$userOfficerID} - {$userFName} {$userLName}        under Center - {$userCenterID}";
+
+    }
+
+?>
+
+<?php include('includes/header.php'); ?>
+    
     <style>
     
         table {
@@ -28,30 +42,9 @@
         }
 
     </style>
-</head>
 
-<body>
-
-    <header>
-        <h1>AGRO FERTILIZING</h1>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="Farmers.php">Farmers</a></li>
-            <li><a href="Officers.php">Offices</a></li>
-            <li><a href="Cultivations.php">Cultivations</a></li>
-            <li><a href="IssueFertilizer.php">Fertilizer Issuing</a></li>
-            <li><a href="ViewStock.php">View Stock</a></li>
-            <!--            
-            <li><a href="about-us.php">About Us</a></li>
-            <li><a href="contact-us.php">Contact Us</a></li>
-            <li><a href="services.php">Services</a></li>
-            -->
-        </ul>
-    </nav>
-    
-    <h1>Store Info</h1><hr>
+    <h1>Store Info</h1>
+    <h4><?php echo $msgViewUser ?></h4><hr>
 
     <form action="ViewStock.php" method = "post">
 
@@ -71,8 +64,8 @@
         <tbody>
 
             <?php
-                session_start();
-                $officerid =   $_SESSION['userID'] ;
+                
+                $officerid = $_SESSION['userID'] ;
 
                 $query = "SELECT FertilizerID , Description, QtyOnHand , StoredDate , ExpireDate  FROM fertilizer_management.stores fm join fertilizer f USING(FertilizerID) where  CenterID = (SELECT CenterID FROM fertilizer_management.agricultural_officer where OfficerID = '{$officerid}')";
 
@@ -107,5 +100,4 @@
 
 <?php include('includes/footer.php'); ?>
 
-<?php mysqli_close($conn) ?>
-
+<?php mysqli_close($conn); ?>

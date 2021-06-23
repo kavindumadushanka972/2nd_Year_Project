@@ -34,7 +34,7 @@ img.sidepic{
 }
 img.contactpic{
 	width: 100px;
-	margin-left: 250px;
+	margin-left: 240px;
 	margin-top: 10px;
 }
 
@@ -53,7 +53,15 @@ form.signup a{
 }
 
 form.signup button{
-	margin-left: 250px;
+	margin-left: 240px;
+}
+
+form.signup input{
+	margin-left: 190px;
+}
+
+form.signup label{
+	margin-left: 185px;
 }
 
 div.copyrights{

@@ -2,22 +2,40 @@
 
 <?php
     
+    session_start();
+    $officerID = $_SESSION['userID'];
+    $query = "SELECT OfficerID, CenterID, FName, LName FROM AGRICULTURAL_OFFICER WHERE OfficerID = '{$officerID}' LIMIT 1";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($recordRow = mysqli_fetch_assoc($result)) {
+
+        $userOfficerID = $recordRow['OfficerID'];
+        $userCenterID = $recordRow['CenterID'];
+        $userFName = $recordRow['FName'];
+        $userLName = $recordRow['LName'];
+
+        $msgViewUser = "Login as        {$userOfficerID} - {$userFName} {$userLName}        under Center - {$userCenterID}";
+
+    }
+    
     if (isset($_POST['btn_update'])) {
 
         $farmerID = $_POST['txtFarmerID'];
-        $first_name = $_POST['txtFirstName'];
-        $last_name = $_POST['txtLastName'];
+        $firstName = $_POST['txtFirstName'];
+        $lastName = $_POST['txtLastName'];
         $address = $_POST['txtAddress'];
         $telNo = $_POST['txtTelNo'];
+        $NIC = $_POST['txtNIC'];
 
-        $query = "UPDATE FARMER SET FName = '{$first_name}', LName = '{$last_name}', Address = '{$address}', TelNo = '{$telNo}' WHERE FarmerID = '{$farmerID}'";
+        $query = "UPDATE FARMER SET FName = '{$firstName}', LName = '{$lastName}', Address = '{$address}', TelNo = '{$telNo}', NIC = '{$NIC}' WHERE FarmerID = '{$farmerID}'";
 
         $result = mysqli_query($conn, $query);
 
         if ($result) {
-            echo "1 record updated successfully.";
+            $msg2 = "Record updated successfully";
         } else {
-            echo "Database update query failed.";
+            $msg2 = "Failed updating the record";
         }
 
     }
@@ -25,19 +43,20 @@
     if (isset($_POST['btn_save'])) {
 
         $farmerID = $_POST['txtFarmerID'];
-        $first_name = $_POST['txtFirstName'];
-        $last_name = $_POST['txtLastName'];
+        $firstName = $_POST['txtFirstName'];
+        $lastName = $_POST['txtLastName'];
         $address = $_POST['txtAddress'];
         $telNo = $_POST['txtTelNo'];
+        $NIC = $_POST['txtNIC'];
 
-        $query = "INSERT INTO FARMER VALUES ('{$farmerID}', '{$first_name}', '{$last_name}', '{$address}', '{$telNo}')";
+        $query = "INSERT INTO FARMER VALUES ('{$farmerID}', '{$firstName}', '{$lastName}', '{$address}', '{$telNo}', '{$NIC}')";
 
         $result = mysqli_query($conn, $query);
 
         if ($result) {
-            echo "1 record added successfully";
+            $msg2 = "New farmer added successfully";
         } else {
-            echo "Database query failed";
+            $msg2 = "Failed adding new record";
         }
 
     }
@@ -60,63 +79,51 @@
 
     if (isset($_POST['btnSearchID'])) {
         
-        $farmerID = $_POST['txtFarmerID'];
+        $NIC = $_POST['txtNIC'];
         
-        $query = "SELECT * FROM FARMER WHERE FarmerID = '{$farmerID}'";
+        $query = "SELECT * FROM FARMER WHERE NIC = '{$NIC}'";
 
         $resultRow = mysqli_query($conn, $query);
 
         if ($record = mysqli_fetch_assoc($resultRow)) {
+
             $farmerID = $record['FarmerID'];
             $firstName = $record['FName'];
             $lastName = $record['LName'];
             $address = $record['Address'];
             $telNo = $record['TelNo'];
+
+        } else {
+            $msg1 = "No such FarmerID exists";
         }
 
     }
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Department of Agriculture</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
 
-    <header>
-        <h1>AGRO FERTILIZING</h1>
-    </header>
 
-    <nav>
-        <ul>
-            <li><a href="Farmers.php">Farmers</a></li>
-            <li><a href="Officers.php">Offices</a></li>
-            <li><a href="Cultivations.php">Cultivations</a></li>
-            <li><a href="IssueFertilizer.php">Fertilizer Issuing</a></li>
-            <li><a href="ViewStock.php">View Stock</a></li>
-            <!--            
-            <li><a href="about-us.php">About Us</a></li>
-            <li><a href="contact-us.php">Contact Us</a></li>
-            <li><a href="services.php">Services</a></li>
-            -->
-        </ul>
-    </nav>
+<?php include('includes/header.php'); ?>
     
     <form action="Farmers.php" method = "post">
 
-        <h1>View Farmer Info</h1><hr>
+        <h1>View Farmer Info</h1>
+        <h4><?php echo $msgViewUser ?></h4><hr>
     
         <table>
 
             <tr>
+                <td>NIC No : </td>
+                <td>
+                    <input type="text" name = "txtNIC" value = "<?php echo (isset($NIC)) ? $NIC : ''; ?>"></input>
+                    <button name="btnSearchID" type="submit" value="HTML">SEARCH</button>
+                    <label for="lblMsg1"><b><?php echo (isset($msg1)) ? $msg1 : ''; ?></b></label>
+                </td>
+            </tr>
+            <tr>
                 <td>Farmer ID : </td>
                 <td>
                     <input type="text" name = "txtFarmerID" value = "<?php echo (isset($farmerID)) ? $farmerID : ''; ?>"></input>
-                    <button name="btnSearchID" type="submit" value="HTML">SEARCH</button>
                     <button name="btnAddNew" type="submit" value="HTML">ADD NEW</button>
                 </td>
             </tr>
@@ -138,12 +145,13 @@
             </tr>
             
             <tr>
-                <td>
-                    <button name="btn_update" type="submit" value="HTML">UPDATE</button>
+                <td> 
                 </td>
             
                 <td>
+                    <button name="btn_update" type="submit" value="HTML">UPDATE</button>
                     <button name="btn_save" type="submit" value="HTML">SAVE NEW</button>
+                    <label for="lblMsg2"><b><?php echo (isset($msg2)) ? $msg2 : ''; ?></b></label>
                 </td>
             </tr>
             
@@ -153,5 +161,4 @@
 
 <?php include('includes/footer.php'); ?>
 
-<?php mysqli_close($conn) ?>
-
+<?php mysqli_close($conn); ?>

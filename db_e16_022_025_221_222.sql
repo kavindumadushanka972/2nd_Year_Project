@@ -8,6 +8,7 @@ CREATE TABLE FARMER(
 	LName VARCHAR(20) NOT NULL,
 	Address VARCHAR(200) NOT NULL,
 	TelNo CHAR(10) NOT NULL,
+	NIC VARCHAR(12) NOT NULL,
 	PRIMARY KEY(FarmerID)
 );
 
@@ -75,12 +76,11 @@ CREATE TABLE STORES(
 
 
 INSERT INTO FARMER VALUES
-('F001','Saman','Danapala','No.20, Walana, Panadura', '0912245896'),
-('F002','Nimal','Gunapala','No. 200, Thalpitiya, Wadduwa','0712512500'),
-('F003','Piyal','Amarapala','No. 100, Horawala, Matugama','0777458963'),
-('F004','Prasanna','Somapala','No. 10, Ginigama, Galle','0762211456'),
-('F005','Sanjeewa','Jinapala','N0. 34, Ginthota, Aluthgama','0701234568'),
-('F006','Siril','Gunasekara','No. 230, Galle Road, Panadura','0718112545');
+('F001','Saman','Danapala','No.20, Walana, Panadura', '0912245896', '962291465V'),
+('F002','Nimal','Gunapala','No. 200, Thalpitiya, Wadduwa','0712512500', '875612458V'),
+('F003','Piyal','Amarapala','No. 100, Horawala, Matugama','0777458963', '625645789V'),
+('F004','Prasanna','Somapala','No. 10, Ginigama, Galle','0762211456', '123456789456'),
+('F005','Sanjeewa','Jinapala','N0. 34, Ginthota, Aluthgama','0701234568', '784596154V');
 
 
 INSERT INTO SUPPLY_CENTER VALUES
@@ -94,8 +94,7 @@ INSERT INTO SUPPLY_CENTER VALUES
 INSERT INTO AGRICULTURAL_OFFICER VALUES
 ('A001','SC01','Sarath','Amarasiri','0912258478', 'abcd1234'),
 ('A002','SC02','Kumara','Somawathee','0704455698','123xyz'),
-('A003','SC04','Ramani','Karunarathne','0777586145', '#170#'),
-('A004','SC03','Ajith','Jinasena','0765845785', '98765');
+('A003','SC01','Ramani','Karunarathne','0777586145', '#170#');
 
 
 INSERT INTO CULTIVATION VALUES
@@ -103,9 +102,12 @@ INSERT INTO CULTIVATION VALUES
 ('L002','F002','A003','Paddy',4.25,'March'),
 ('L003','F002','A003','Maize',5.50,'February'),
 ('L004','F003','A002','Paddy',1.85,'March'),
-('L005','F005','A001','Brinjal',4.80,'January'),
+('L005','F001','A001','Brinjal',4.80,'January'),
 ('L006','F005','A001','Tomato',3.25,'January'),
-('L007','F005','A001','Green Chilli',0.95,'January');
+('L007','F005','A001','Green Chilli',0.95,'January'),
+('L008','F002','A001','Paddy',3.25,'April'),
+('L009','F003','A001','Maize',2.30,'February'),
+('L010','F004','A001','Tomato',1.20,'January');
 
 
 INSERT INTO FERTILIZER VALUES
@@ -127,9 +129,9 @@ INSERT INTO STORES VALUES
 ('M008','SC01',100,'2019-02-09','2021-02-09'),
 ('M001','SC02',120,'2020-01-07','2021-01-07'),
 ('M006','SC02',65,'2020-01-07','2021-07-07'),
-('M008','SC03',50,'2020-01-07','2022-01-07'),
-('M002','SC05',80,'2020-01-07','2021-01-07'),
-('M007','SC05',95,'2020-01-07','2021-07-07');
+('M008','SC02',50,'2020-01-07','2022-01-07'),
+('M002','SC02',80,'2020-01-07','2021-01-07'),
+('M007','SC02',95,'2020-01-07','2021-07-07');
 
 
 INSERT INTO RECEIVES VALUES

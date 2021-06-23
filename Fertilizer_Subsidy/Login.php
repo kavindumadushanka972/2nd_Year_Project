@@ -59,9 +59,11 @@
 		<dic class="column">
 			<img class="contactpic" src="wave/profilepic.svg">
 			<form action="Login.php" class="signup"  method="post">
+				<br>
 				<label for="lblMsg"><b><?php echo (isset($msg)) ? $msg : ''; ?></b></label>
 				<br>
 				<input type="text" name="txtUName" placeholder="Username" required>
+				<br>
 				<input type="password" name="txtPsw" placeholder="Password" required>
 				<br>
 				<br>
